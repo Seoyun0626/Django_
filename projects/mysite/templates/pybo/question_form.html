@@ -1,0 +1,44 @@
+<!-- 질문 등록을 위해 -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">질문등록</h5>
+    <form method="post" class="post-form my-3">
+        {% csrf_token %}
+        <!-- form : question_create 함수에서 전달한 QuestionForm 객체, subject, content에 값 입력할 수 있는 HTML 코드 생성 -->
+        <!-- form요소와 입력항목을 자동으로 생성하지만 부트스트랩 적용을 못함 -->
+        <!-- HTML자동으로 생성하므로 많은 제약 생성 그러므로 수동으로 생성하기 -->
+        <!-- {{ form.as_p }} -->
+        <!-- 오류 표시 Start -->
+        {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+            {% for field in form %}
+                {% if field.errors %}
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% endif %}
+        <!-- 오류표시 End -->
+        <div class="form-group">
+            <label for="subject">제목</label>
+            <input type="text" class="form-control" name="subject" id="subject"
+                   value="{{ form.subject.value|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea class="form-control" name="content"
+                      id="content" rows="10">{{ form.content.value|default_if_none:'' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    <h5 class="my-3 border-bottom pb-2">질문 등록</h5>
+    <form method="post" class="post-form my-3">
+        {% csrf_token %}
+        <!-- form : question_create 함수에서 전달한 QuestionForm 객체, subject, content에 값 입력할 수 있는 HTML 코드 생성 -->
+        {{ form.as_p }}
+        <botton type="submit" class="btn btn-primary">저장하기</botton>
+    </form>
+</div>
+{% endblock %}
