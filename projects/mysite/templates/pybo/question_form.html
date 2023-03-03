@@ -33,12 +33,6 @@
                       id="content" rows="10">{{ form.content.value|default_if_none:'' }}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">저장하기</button>
-    <h5 class="my-3 border-bottom pb-2">질문 등록</h5>
-    <form method="post" class="post-form my-3">
-        {% csrf_token %}
-        <!-- form : question_create 함수에서 전달한 QuestionForm 객체, subject, content에 값 입력할 수 있는 HTML 코드 생성 -->
-        {{ form.as_p }}
-        <botton type="submit" class="btn btn-primary">저장하기</botton>
     </form>
 </div>
 {% endblock %}
