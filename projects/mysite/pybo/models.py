@@ -19,3 +19,15 @@ class Answer(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     modify_date = models.DateTimeField(null=True, blank=True)
 
+
+# Comment 구성요소 : 댓글(글쓴이, 내용, 작성일시, 수정일시, 이 댓글이 달린 질문, 이 댓글이 달린 답변)
+# 질문에 댓글 작성 -> question필드 값 저장, 답변에 댓글 작성 -> answer필드 값 저장 => 둘 중 하나 필드 값 => null=True, blank=True
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    create_date = models.DateTimeField()
+    modify_date = models.DateTimeField(null=True, blank=True)
+    question = models.ForeignKey(Question, null=True, blank=True,
+                                 on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, null=True, blank=True, on_delete=models.CASCADE)
+
