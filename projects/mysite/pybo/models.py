@@ -6,8 +6,9 @@ class Question(models.Model):
     content = models.TextField() # 내용 : 글자 수 제한X
     create_date = models.DateTimeField() # 날짜, 시간 관련 속성
     modify_date = models.DateTimeField(null=True, blank=True) # null=True : modify_date 열에 null 허용, blank=Ture : form.is_valie()를 통한 입력 폼 데이터 검사 시 값 없어도 됨
-    author = models.ForeignKey(User, on_delete=models.CASCADE) # on_delete : 계정이 삭제되면 계정과 연결된 Q모델 데이터 모두 삭제
-
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               related_name='author_question') # on_delete : 계정이 삭제되면 계정과 연결된 Q모델 데이터 모두 삭제
+    voter = models.ManyToManyField(User, related_name='voter_question') # 글 1개에 여러명 추천, 1명이 여러개 글 추천 -> 다대다관계
     def __str__(self):
         return self.subject
 
@@ -16,8 +17,10 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE) # 다른 모델과의 연결 + 질문 삭제하면 -> 답변 삭제해라
     content = models.TextField()
     create_date = models.DateTimeField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE,
+                               related_name='author_answer')
     modify_date = models.DateTimeField(null=True, blank=True)
+    voter = models.ManyToManyField(User, related_name='voter_answer')
 
 
 # Comment 구성요소 : 댓글(글쓴이, 내용, 작성일시, 수정일시, 이 댓글이 달린 질문, 이 댓글이 달린 답변)
